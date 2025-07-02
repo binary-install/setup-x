@@ -144,8 +144,9 @@ main() {
     log_info "Running installer script"
     INSTALL_ARGS="-b $INSTALL_DIR"
 
+    # Add version as positional argument if specified
     if [[ -n "${INPUT_VERSION:-}" ]]; then
-        INSTALL_ARGS="$INSTALL_ARGS -v $INPUT_VERSION"
+        INSTALL_ARGS="$INSTALL_ARGS $INPUT_VERSION"
     fi
 
     # Run the installer
