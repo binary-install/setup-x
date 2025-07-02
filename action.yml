@@ -1,0 +1,43 @@
+name: 'Setup X'
+description: 'Install binaries using binstaller-generated scripts with verification'
+author: 'binary-install'
+branding:
+  icon: 'download'
+  color: 'blue'
+
+inputs:
+  script_url:
+    description: 'URL of the binstaller-generated installation script'
+    required: true
+  script_sha256:
+    description: 'SHA256 hash of the installer script for verification (optional)'
+    required: false
+    default: ''
+  gh_attestations_verify_flags:
+    description: 'Flags for gh attestation verify command (optional)'
+    required: false
+    default: ''
+  version:
+    description: 'Version of the tool to install (optional, uses script default if not provided)'
+    required: false
+    default: ''
+  gh_token:
+    description: 'GitHub token for gh attestation verify (defaults to GITHUB_TOKEN)'
+    required: false
+    default: ${{ github.token }}
+
+outputs: {}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install binary
+      shell: bash
+      env:
+        INPUT_SCRIPT_URL: ${{ inputs.script_url }}
+        INPUT_SCRIPT_SHA256: ${{ inputs.script_sha256 }}
+        INPUT_GH_ATTESTATIONS_VERIFY_FLAGS: ${{ inputs.gh_attestations_verify_flags }}
+        INPUT_VERSION: ${{ inputs.version }}
+        GITHUB_TOKEN: ${{ inputs.gh_token }}
+      run: |
+        "${{ github.action_path }}/action.sh"
