@@ -39,5 +39,8 @@ runs:
         INPUT_GH_ATTESTATIONS_VERIFY_FLAGS: ${{ inputs.gh_attestations_verify_flags }}
         INPUT_VERSION: ${{ inputs.version }}
         GITHUB_TOKEN: ${{ inputs.gh_token }}
+        # Need this hack to output result of gh attestation verify.
+        # https://github.com/cli/cli/issues/10117
+        GH_FORCE_TTY: 1
       run: |
         "${{ github.action_path }}/action.sh"
